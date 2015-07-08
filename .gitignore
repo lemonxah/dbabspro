@@ -1,0 +1,15 @@
+# scala
+target
+
+#IntelliJ
+*.ipr
+*.iws
+.idea
+
+# sbt specific
+.cache/
+.lib/
+dist/*
+lib_managed/
+project/boot/
+project/plugins/project/
