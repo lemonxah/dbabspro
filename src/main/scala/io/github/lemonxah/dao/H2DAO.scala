@@ -11,46 +11,9 @@ import scalikejdbc._
  * http://stackoverflow.com/users/2919672/lemon-xah
  */
 
-object H2Interpreter {
-  val opmap: PartialFunction[Operand[_], String] = {
-    case _: Equals[_]         => "="
-    case _: GreaterThan[_]    => ">"
-    case _: GreaterOrEqual[_] => ">="
-    case _: LessThan[_]       => "<"
-    case _: LessOrEqual[_]    => "<"
-    case _: NotEquals[_]      => "<"
-  }
-
-  val SqlOperandWriter = new Writer[Operand[_], String] {
-    override def write(a: Operand[_]): String = a match {
-      case op: Operand[_] => s"${op.field.name} ${opmap(op)} " + (op.value match {
-        case v: String => s"'$v'"
-        case v         => s"$v"
-      })
-    }
-  }
-
-  val SqlOperatorWriter = new Writer[Operator, String] {
-    override def write(o: Operator): String = {
-      s"(${SqlQueryWriter.write(o.left)} ${o match { case _: Or => "OR" case _: And => "AND" }} ${SqlQueryWriter.write(o.right)})"
-    }
-  }
-
-  implicit val SqlQueryWriter: Writer[Query, String] = new Writer[Query, String] {
-    override def write(a: Query): String = a match {
-      case op: Operand[_] => SqlOperandWriter.write(op)
-      case op: Operator   => SqlOperatorWriter.write(op)
-    }
-  }
-
-  implicit val SqlCleaner = new Cleaner[String, String] {
-    override def clean(a: String): String = if (a.head == '(' && a.last == ')') a.drop(1).dropRight(1) else a
-  }
-}
-
 class H2DAO[A <: Model](session: DBSession, table: String) extends DAO[A, String, WrappedResultSet, String] {
   implicit val s = session
-  import H2Interpreter._
+  import SQLInterpreter._
 
   override def interpreter(q: Query, empty: String = ""): Option[String] = {
     try { Some(implicitly[Writer[Query,String]].write(q)) } catch { case e: Exception => None }
