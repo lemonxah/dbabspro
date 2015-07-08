@@ -13,11 +13,11 @@ import scala.reflect.macros.whitebox
  * http://stackoverflow.com/users/2919672/lemon-xah
  */
 
-trait H2Mappable[A] extends Mappable[A, String, WrappedResultSet]
+trait SQLMappable[A] extends Mappable[A, String, WrappedResultSet]
 object H2Mappable {
-  implicit def materializeMappable[T]: H2Mappable[T] = macro materializeMappableImpl[T]
+  implicit def materializeMappable[T]: SQLMappable[T] = macro materializeMappableImpl[T]
 
-  def materializeMappableImpl[T: c.WeakTypeTag](c: whitebox.Context): c.Expr[H2Mappable[T]] = {
+  def materializeMappableImpl[T: c.WeakTypeTag](c: whitebox.Context): c.Expr[SQLMappable[T]] = {
     import c.universe._
     val tpe = weakTypeOf[T]
     val companion = tpe.typeSymbol.companion
@@ -39,8 +39,8 @@ object H2Mappable {
          mks(..$values)
        """
 
-    c.Expr[H2Mappable[T]] { q"""
-      new H2Mappable[$tpe] {
+    c.Expr[SQLMappable[T]] { q"""
+      new SQLMappable[$tpe] {
         def toDBType(t: $tpe): String = { $toDBParams }
         def fromDBType(map: WrappedResultSet): $tpe = $companion(..$fromMapParams)
       }
