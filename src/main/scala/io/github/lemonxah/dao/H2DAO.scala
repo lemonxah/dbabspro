@@ -1,6 +1,6 @@
 package io.github.lemonxah.dao
 
-import com.fullfacing.ticketing.macros.{H2Mappable, Mappable}
+import io.github.lemonxah.macros.Mappable
 import scalikejdbc._
 
 /**

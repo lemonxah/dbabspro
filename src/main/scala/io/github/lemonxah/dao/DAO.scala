@@ -1,6 +1,8 @@
 package io.github.lemonxah.dao
 
-import com.fullfacing.ticketing.macros.Mappable
+
+import io.github.lemonxah.macros.Mappable
+
 import scala.language.higherKinds
 
 /**

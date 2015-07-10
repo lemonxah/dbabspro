@@ -1,9 +1,9 @@
 package io.github.lemonxah.dao
 
-import com.fullfacing.ticketing.macros.Mappable
 import com.mongodb.DBObject
 import com.mongodb.casbah.commons.MongoDBObject
 import com.mongodb.casbah.Imports._
+import io.github.lemonxah.macros.Mappable
 import scala.language.implicitConversions
 /**
  * Project: dbabspro

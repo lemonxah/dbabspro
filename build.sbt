@@ -1,6 +1,8 @@
 name := "dbabspro"
 
-version := "1.0"
+version := "0.1.70"
+
+organization := "io.github.lemonxah"
 
 scalaVersion := "2.11.7"
 
@@ -10,7 +12,6 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "org.scalaz" %% "scalaz-core" % "7.0.6",
     "com.h2database" % "h2" % "1.4.187",
-    "com.fullfacing" %% "macro-ticketing" % "0.1.29",
     "org.apache.kafka" %% "kafka" % "0.8.2.1",
     "org.scalikejdbc" %% "scalikejdbc" % "2.2.7",
     "org.mongodb" %% "casbah" % "2.8.1",
